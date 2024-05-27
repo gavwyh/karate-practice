@@ -2,16 +2,26 @@ package examples;
 
 import com.intuit.karate.Results;
 import com.intuit.karate.Runner;
+import com.trivago.cluecumber.core.CluecumberCore;
+import com.trivago.cluecumber.engine.exceptions.CluecumberException;
+
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 class ExamplesTest {
 
     @Test
-    void testParallel() {
+    void testParallel() throws CluecumberException {
         Results results = Runner.path("classpath:examples")
                 //.outputCucumberJson(true)
-                .parallel(5);
+                .reportDir("target/myReport")
+                .outputHtmlReport(false)
+                .outputJunitXml(true).parallel(3);
+        // new CluecumberCore.Builder().build()
+        //     .generateReports(
+        //         "target/myReport",
+        //         "target/customReport"
+        //     );
         assertEquals(0, results.getFailCount(), results.getErrorMessages());
     }
 
